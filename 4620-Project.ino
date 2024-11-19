@@ -10,7 +10,6 @@ TaskHandle_t Handle_menuTask;
 void setup() 
 {
   Terminal.begin(115200);
-  while (!Terminal);
 
   display.begin();
   resetScreen();

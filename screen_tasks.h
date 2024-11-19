@@ -42,14 +42,24 @@ void homePage()
   // Terminal.println("Home released the menu mutex");
 }
 
+float floatABS(float f)
+{
+  uint32_t i = (*(uint32_t*)&f) & 0x7FFFFFFF;
+  return *(float*)&i;
+}
+
 void drawFloatPage(float * prev, float * curr, const char * unit)
 {
-  if ((prev - curr) < 0.001 && previous_page == current_page)
+  if (floatABS(*prev - *curr) < 0.001 && previous_page == current_page)
     return;
-  
-  resetScreen();
+
+  if (previous_page == 0)
+    resetScreen();
+  else
+    display.drawRect(0,0,120,60,TFT_BLACK);
+ 
   display.drawString(unit, display.drawFloat(*curr, 2, 1, 5), 5);
-  prev = curr;
+  *prev = *curr;
 }
 
 void temperaturePage()
