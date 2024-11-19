@@ -4,13 +4,27 @@
 #include <Seeed_Arduino_FreeRTOS.h>
 #include "TFT_eSPI.h"
 #include "button.h"
+#include "AHT20.h"
+#include "MQ7.h"
 #define Terminal Serial
+
+TaskHandle_t Handle_screenTask;
+TaskHandle_t Handle_buttonTask;
+TaskHandle_t Handle_menuTask;
+
+TaskHandle_t Handle_weatherTask;
+TaskHandle_t Handle_coTask;
 
 SemaphoreHandle_t temperature_semaphore = NULL,
                   humidity_semaphore    = NULL,
                   carbon_mono_semaphore = NULL;
 
-float humidity, temperature, co_ppm;
+float temperature, humidity, co_ppm;
+AHT20 AHT;
+
+#define A_PIN 2
+#define VOLTAGE 5
+MQ7 mq7(A_PIN, VOLTAGE);
 
 SemaphoreHandle_t menu_semaphore = NULL;
 uint8_t menu_option;

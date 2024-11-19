@@ -69,7 +69,7 @@ void temperaturePage()
   if (!xSemaphoreTake(temperature_semaphore, portMAX_DELAY))
     return;
   
-  drawFloatPage(&prev_temp, &temperature, "C");
+  drawFloatPage(&prev_temp, &temperature, "F");
 
   xSemaphoreGive( temperature_semaphore );
 }
