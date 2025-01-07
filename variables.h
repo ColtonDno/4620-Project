@@ -5,8 +5,10 @@
 #include "TFT_eSPI.h"
 #include "button.h"
 #include "AHT20.h"
-#include "MQ7.h"
+#include <MQ7.h>
+
 #define Terminal Serial
+#define BUZZERPIN 12
 
 TaskHandle_t Handle_screenTask;
 TaskHandle_t Handle_buttonTask;
@@ -15,15 +17,17 @@ TaskHandle_t Handle_menuTask;
 TaskHandle_t Handle_weatherTask;
 TaskHandle_t Handle_coTask;
 
-SemaphoreHandle_t temperature_semaphore = NULL,
-                  humidity_semaphore    = NULL,
-                  carbon_mono_semaphore = NULL;
+TaskHandle_t Handle_alarmTask;
+
+SemaphoreHandle_t temperature_semaphore = NULL;
+SemaphoreHandle_t humidity_semaphore    = NULL;
+SemaphoreHandle_t carbon_mono_semaphore = NULL;
 
 float temperature, humidity, co_ppm;
 AHT20 AHT;
 
-#define A_PIN 2
-#define VOLTAGE 5
+#define A_PIN A2
+#define VOLTAGE 2
 MQ7 mq7(A_PIN, VOLTAGE);
 
 SemaphoreHandle_t menu_semaphore = NULL;

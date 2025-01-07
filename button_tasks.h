@@ -47,7 +47,6 @@ static void handleInput(void* pvParameters)
 
     if (!xSemaphoreTake(page_semaphore, portMAX_DELAY))
       continue;
-    // Terminal.println("Input aquired the page mutex");
 
     if (current_page == 0)
       updateMenu();
@@ -55,7 +54,6 @@ static void handleInput(void* pvParameters)
       pageInput();
 
     xSemaphoreGive( page_semaphore );
-    // Terminal.println("Input released the page mutex");
   }
 
   vTaskDelete(NULL);
@@ -69,7 +67,7 @@ static void updateButtons(void* pvParameters)
     for (int i = 0; i < 4; i++)
       buttons[i]->updateButton();
       
-    vTaskDelayUntil(&prev_wake_time, 10);
+    vTaskDelayUntil(&prev_wake_time, 25);
   }
 
   vTaskDelete(NULL);

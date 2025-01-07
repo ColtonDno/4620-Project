@@ -1,4 +1,3 @@
-#include "WInterrupts.h"
 #ifndef _SCREEN_TASKS_H_
 #define _SCREEN_TASKS_H_
 
@@ -18,7 +17,6 @@ void homePage()
 
   if (!xSemaphoreTake(menu_semaphore, portMAX_DELAY))
     return;
-  // Terminal.println("Home aquired the menu mutex");
   
   if (prev_option == menu_option && previous_page == current_page)
   {
@@ -39,7 +37,6 @@ void homePage()
   display.print(">");
 
   xSemaphoreGive( menu_semaphore );
-  // Terminal.println("Home released the menu mutex");
 }
 
 float floatABS(float f)
@@ -56,7 +53,7 @@ void drawFloatPage(float * prev, float * curr, const char * unit)
   if (previous_page == 0)
     resetScreen();
   else
-    display.drawRect(0,0,120,60,TFT_BLACK);
+    display.fillRect(0,0,150,30,TFT_BLACK);
  
   display.drawString(unit, display.drawFloat(*curr, 2, 1, 5), 5);
   *prev = *curr;
@@ -93,7 +90,7 @@ void carbonMonoxidePage()
   if (!xSemaphoreTake(carbon_mono_semaphore, portMAX_DELAY))
     return;
   
-  drawFloatPage(&prev_cmono, &co_ppm, "ppm"); // ppm
+  drawFloatPage(&prev_cmono, &co_ppm, "ppm");
 
   xSemaphoreGive( carbon_mono_semaphore );
 }
@@ -109,13 +106,11 @@ static void drawScreen(void* pvParameters)
 
     if (!xSemaphoreTake(page_semaphore, portMAX_DELAY))
       continue;
-    // Terminal.println("Screen aquired the page mutex");
 
     pages[current_page]();
     previous_page = current_page;
 
     xSemaphoreGive( page_semaphore );
-    // Terminal.println("Screen released the page mutex");
   }
 
   vTaskDelete(NULL);

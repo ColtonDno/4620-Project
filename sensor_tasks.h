@@ -1,10 +1,10 @@
-static void updateTemperatureAndHumidity(void* pvParameters)
+static void updateTandH(void* pvParameters)
 {
   static TickType_t prev_wake_time = 0;
 
   while (1)
   {
-    vTaskDelayUntil(&prev_wake_time, 1000);
+    vTaskDelayUntil(&prev_wake_time, 500);
 
     if (!xSemaphoreTake(humidity_semaphore, portMAX_DELAY))
       continue;
@@ -13,7 +13,7 @@ static void updateTemperatureAndHumidity(void* pvParameters)
       continue;
 
     AHT.getSensor(&humidity, &temperature);
-    temperature = ((temperature * 9) / 5 ) + 32;
+    // temperature = ((temperature * 9) / 5 ) + 32;
 
     xSemaphoreGive( temperature_semaphore );
     xSemaphoreGive( humidity_semaphore );
@@ -28,7 +28,7 @@ static void updateCO(void* pvParameters)
 
   while (1)
   {
-    vTaskDelayUntil(&prev_wake_time, 1000);
+    vTaskDelayUntil(&prev_wake_time, 500);
 
     if (!xSemaphoreTake(carbon_mono_semaphore, portMAX_DELAY))
       continue;

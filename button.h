@@ -5,7 +5,6 @@
 
 enum ButtonStates {RELEASED, WAITING, PRESSED};
 
-// Generic button class
 class Button
 {
   private:

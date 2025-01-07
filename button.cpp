@@ -8,7 +8,6 @@ Button::Button(uint8_t button_pin)
   pinMode(button_pin, INPUT_PULLUP);
 }
 
-// Checks if the button is pressed with debounce
 void Button::updateButton()
 {
   if (digitalRead(button_pin) == HIGH) 
